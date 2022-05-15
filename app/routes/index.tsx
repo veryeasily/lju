@@ -1,4 +1,4 @@
-import resolveConfig from "tailwindcss/resolveConfig.js";
+import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
