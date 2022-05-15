@@ -49,13 +49,13 @@ function isUser(user: any): user is User {
 }
 
 export async function delay(ms: number, signal: AbortSignal) {
-  return new Promise((res, rej) => {
+  return new Promise<void>((res, rej) => {
     const timer = setTimeout(() => {
-      res(null);
+      res();
     }, ms);
     signal.addEventListener("abort", () => {
       clearTimeout(timer);
-      rej(null);
+      rej();
     });
   });
 }
