@@ -36,7 +36,7 @@ function Circle() {
     }
     loop();
   }, []);
-  return <circle cx={cx} cy={cy} r="5%" fill="white" />;
+  return <circle cx={cx} cy={cy} r="3%" fill="white" />;
 }
 
 function Background() {
