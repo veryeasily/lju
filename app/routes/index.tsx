@@ -1,7 +1,8 @@
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { delay } from "~/utils";
 
 const fullConfig = resolveConfig(tailwindConfig);
 const COLORS = [
@@ -11,29 +12,36 @@ const COLORS = [
 
 console.log("fullConfig.theme.colors", fullConfig.theme.colors);
 
-function randColor() {
+function pickColor() {
   return COLORS[Math.floor(Math.random() * COLORS.length)];
 }
 
+async function updateColor(
+  setter: (color: string) => void,
+  signal = new AbortController().signal
+) {
+  const rand = Math.random() * 1000;
+  try {
+    await delay(rand, signal);
+  } catch {
+    return;
+  }
+  setter(pickColor());
+  updateColor(setter, signal);
+}
+
 export default function Index() {
-  const [color, setColor] = useState(randColor());
+  const [color, setColor] = useState(pickColor());
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    function updateColor() {
-      setColor(randColor());
-      const rand = Math.floor(Math.random() * 1000);
-      timeout = setTimeout(updateColor, rand);
-    }
-    updateColor();
-    return () => timeout && clearTimeout(timeout);
+    const cnt = new AbortController();
+    updateColor(setColor, cnt.signal);
+    return () => cnt.abort("unmounted");
   }, []);
 
   return (
     <motion.main
-      className="relative min-h-screen sm:flex sm:items-center sm:justify-center"
-      animate={{
-        backgroundColor: color,
-      }}
+      animate={{ backgroundColor: color }}
+      className="c-page relative min-h-screen sm:flex sm:items-center sm:justify-center"
     >
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl py-2 px-4 text-5xl font-bold text-white sm:px-6 lg:px-8">

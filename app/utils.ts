@@ -48,6 +48,18 @@ function isUser(user: any): user is User {
   return user && typeof user === "object" && typeof user.email === "string";
 }
 
+export async function delay(ms: number, signal: AbortSignal) {
+  return new Promise((res, rej) => {
+    const timer = setTimeout(() => {
+      res(null);
+    }, ms);
+    signal.addEventListener("abort", () => {
+      clearTimeout(timer);
+      rej(null);
+    });
+  });
+}
+
 export function useOptionalUser(): User | undefined {
   const data = useMatchesData("root");
   if (!data || !isUser(data.user)) {
