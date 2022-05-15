@@ -36,12 +36,12 @@ function Circle() {
     }
     loop();
   }, []);
-  return <circle cx={cx} cy={cy} r="3%" fill="white" />;
+  return <circle cx={cx} cy={cy} r="3%" fill="rgba(255, 255, 255, 1)" />;
 }
 
 function Background() {
   const circles = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 400; i++) {
     circles.push(<Circle key={i} />);
   }
   return <svg className="absolute inset-0 z-10 h-full w-full">{circles}</svg>;
@@ -82,11 +82,10 @@ export default function Index() {
         animate={{ backgroundColor: color }}
         className="c-page relative min-h-screen sm:flex sm:items-center sm:justify-center"
       >
-        <div className="relative sm:pb-16 sm:pt-8">
-          <div className="mx-auto max-w-7xl py-2 px-4 text-5xl font-bold text-white sm:px-6 lg:px-8">
-            LJU
-          </div>
+        <div className="absolute top-0 left-0 py-2 px-2 text-5xl font-bold text-white sm:px-6 sm:py-4">
+          LJU
         </div>
+        <div className="relative sm:pb-16 sm:pt-8"></div>
       </motion.main>
     </>
   );
