@@ -1,7 +1,7 @@
-import resolveConfig from "tailwindcss/resolveConfig";
+import resolveConfig from "tailwindcss/resolveConfig.js";
 import tailwindConfig from "tailwind.config";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { delay } from "~/utils";
 
 const fullConfig = resolveConfig(tailwindConfig);
