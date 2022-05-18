@@ -20,12 +20,12 @@ function Circle() {
   const [cx, setCx] = useState(pickPercentage());
   const [cy, setCy] = useState(pickPercentage());
   useEffect(() => {
-    const cnt = new AbortController();
+    const cancel = new AbortController();
     async function loop() {
       while (true) {
         const rand = Math.random() * 5000;
         try {
-          await delay(rand, cnt.signal);
+          await delay(rand, cancel.signal);
         } catch {
           return;
         }
@@ -35,7 +35,7 @@ function Circle() {
       }
     }
     loop();
-    return () => cnt.abort("unmounted");
+    return () => cancel.abort("unmounted");
   }, []);
   return <circle cx={cx} cy={cy} r="2.25rem" fill="rgba(255, 255, 255, 1)" />;
 }
@@ -55,12 +55,12 @@ function pickColor() {
 export default function Index() {
   const [color, setColor] = useState(pickColor());
   useEffect(() => {
-    const cnt = new AbortController();
+    const cancel = new AbortController();
     async function loop() {
       while (true) {
         const rand = Math.random() * 2000 + 750;
         try {
-          await delay(rand, cnt.signal);
+          await delay(rand, cancel.signal);
         } catch {
           return;
         }
@@ -69,7 +69,7 @@ export default function Index() {
       }
     }
     loop();
-    return () => cnt.abort("unmounted");
+    return () => cancel.abort("unmounted");
   }, []);
 
   return (
