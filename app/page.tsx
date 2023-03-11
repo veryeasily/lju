@@ -55,7 +55,7 @@ function pickColor() {
   return COLORS[Math.floor(Math.random() * COLORS.length)]
 }
 
-export default function Index() {
+export default function Home() {
   const [color, setColor] = useState(pickColor())
   useEffect(() => {
     const cancel = new AbortController()

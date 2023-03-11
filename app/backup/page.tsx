@@ -4,7 +4,7 @@ import Image from "next/image"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export default function Home() {
+export default function Backup() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
