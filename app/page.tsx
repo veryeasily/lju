@@ -1,91 +1,92 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+"use client"
 
-const inter = Inter({ subsets: ['latin'] })
+import resolveConfig from "tailwindcss/resolveConfig"
+import tailwindConfig from "@/tailwind.config"
+import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
+import { delay } from "@/lib/utils"
+import { ThemeConfig } from "tailwindcss/types/config"
 
-export default function Home() {
+const theme = resolveConfig(tailwindConfig).theme as ThemeConfig
+const COLORS = [
+  ...Object.values((theme.colors as any).red as string[]),
+  ...Object.values((theme.colors as any).green as string[]),
+  ...Object.values((theme.colors as any).sky as string[]),
+  ...Object.values((theme.colors as any).orange as string[]),
+]
+
+function pickPercentage() {
+  return Math.random() * 100 + "%"
+}
+
+function Circle() {
+  const [cx, setCx] = useState(pickPercentage())
+  const [cy, setCy] = useState(pickPercentage())
+  useEffect(() => {
+    const cancel = new AbortController()
+    async function loop() {
+      while (true) {
+        const rand = Math.random() * 5000
+        try {
+          await delay(rand, cancel.signal)
+        } catch {
+          return
+        }
+
+        setCx(pickPercentage())
+        setCy(pickPercentage())
+      }
+    }
+    loop()
+    return () => cancel.abort("unmounted")
+  }, [])
+  return <circle cx={cx} cy={cy} r="2.25rem" fill="rgba(255, 255, 255, 1)" />
+}
+
+function Background() {
+  const circles = []
+  for (let i = 0; i < 400; i++) {
+    circles.push(<Circle key={i} />)
+  }
+  return <svg className="absolute inset-0 z-10 h-full w-full">{circles}</svg>
+}
+
+function pickColor() {
+  return COLORS[Math.floor(Math.random() * COLORS.length)]
+}
+
+export default function Index() {
+  const [color, setColor] = useState(pickColor())
+  useEffect(() => {
+    const cancel = new AbortController()
+    async function loop() {
+      while (true) {
+        const rand = Math.random() * 2000 + 750
+        try {
+          await delay(rand, cancel.signal)
+        } catch {
+          return
+        }
+
+        setColor(pickColor())
+      }
+    }
+    loop()
+    return () => cancel.abort("unmounted")
+  }, [])
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <Background />
+      <motion.main
+        animate={{ backgroundColor: color }}
+        className="c-page relative min-h-screen sm:flex sm:items-center sm:justify-center"
+      >
+        <div className="absolute top-0 left-0 py-2 px-2 text-5xl font-bold text-white sm:px-6 sm:py-4">
+          LJU
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <div className="relative sm:pb-16 sm:pt-8"></div>
+      </motion.main>
+    </>
   )
 }
