@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ThemeConfig } from "tailwindcss/types/config"
-import { delay } from "@/app/utils"
 import { motion } from "framer-motion"
 import resolveConfig from "tailwindcss/resolveConfig"
+import { ThemeConfig } from "tailwindcss/types/config"
+import { delay } from "@/app/utils"
 import tailwindConfig from "@/tailwind.config"
 
 const theme = resolveConfig(tailwindConfig).theme as ThemeConfig
