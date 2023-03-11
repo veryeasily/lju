@@ -1,11 +1,11 @@
 "use client"
 
-import { delay } from "@/app/utils"
-import tailwindConfig from "@/tailwind.config"
-import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import resolveConfig from "tailwindcss/resolveConfig"
 import { ThemeConfig } from "tailwindcss/types/config"
+import { delay } from "@/app/utils"
+import { motion } from "framer-motion"
+import resolveConfig from "tailwindcss/resolveConfig"
+import tailwindConfig from "@/tailwind.config"
 
 const theme = resolveConfig(tailwindConfig).theme as ThemeConfig
 const COLORS = [
@@ -55,7 +55,7 @@ function pickColor() {
   return COLORS[Math.floor(Math.random() * COLORS.length)]
 }
 
-export default function Home() {
+export default function Index() {
   const [color, setColor] = useState(pickColor())
   useEffect(() => {
     const cancel = new AbortController()

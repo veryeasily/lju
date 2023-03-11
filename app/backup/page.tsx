@@ -1,6 +1,6 @@
-import styles from "@/app/backup/page.module.css"
-import { Inter } from "next/font/google"
 import Image from "next/image"
+import { Inter } from "next/font/google"
+import styles from "@/app/backup/page.module.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
